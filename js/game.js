@@ -36,6 +36,7 @@ function gameScreen() {
   //   startButton.draw();
   paddle.draw();
 
+  //draw bricks
   let brickWidth = 65;
   let margin = 12;
   let x = margin;
@@ -46,10 +47,34 @@ function gameScreen() {
     rect(x, 50, brickWidth, 30);
     x = x + brickWidth + margin;
   }
-
   for (let i = 0; i < 4; i++) {
-    fill(149, 75, 12);
     rect(12, y, 65, brickHeight);
+    y = y + brickHeight + margin;
+  }
+  for (let i = 0; i < 4; i++) {
+    rect(24 + brickWidth, y - 4 * (12 + brickHeight), 65, brickHeight);
+    y = y + brickHeight + margin;
+  }
+  for (let i = 0; i < 4; i++) {
+    rect(
+      x - 3 * (12 + brickWidth),
+      y - 8 * (12 + brickHeight),
+      65,
+      brickHeight
+    );
+    y = y + brickHeight + margin;
+  }
+  for (let i = 0; i < 4; i++) {
+    rect(
+      x - 2 * (12 + brickWidth),
+      y - 12 * (12 + brickHeight),
+      65,
+      brickHeight
+    );
+    y = y + brickHeight + margin;
+  }
+  for (let i = 0; i < 4; i++) {
+    rect(x - (12 + brickWidth), y - 16 * (12 + brickHeight), 65, brickHeight);
     y = y + brickHeight + margin;
   }
 }
