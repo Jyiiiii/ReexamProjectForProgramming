@@ -33,7 +33,7 @@ function gameScreen() {
   text("score:", 50, 30);
   text("❤️:", 350, 30);
 
-  //   startButton.draw();
+  startButton.draw();
   paddle.draw();
 
   //draw bricks
@@ -52,7 +52,7 @@ function gameScreen() {
     by = by + brickHeight + margin;
   }
   for (let i = 0; i < 4; i++) {
-    rect(24 + brickWidth, y - 4 * (12 + brickHeight), 65, brickHeight);
+    rect(24 + brickWidth, by - 4 * (12 + brickHeight), 65, brickHeight);
     by = by + brickHeight + margin;
   }
   for (let i = 0; i < 4; i++) {
@@ -78,11 +78,48 @@ function gameScreen() {
     by = by + brickHeight + margin;
   }
 }
+//for save the highscores score这里要改
+
+//Parts of the following codes are got from the course website-"Build a coin flip game with highscore"
+function highscoreSave() {
+  const nameElement = document.getElementById("name");
+  let highscore = { name: nameElement.value, score: "" };
+
+  if (localStorage.highscore === undefined) {
+    localStorage.highscore = JSON.stringify([]);
+  }
+  let highscoreArray = JSON.parse(localStorage.highscore);
+  highscoreArray.push(highscore);
+  localStorage.highscore = JSON.stringify(highscoreArray);
+
+  displayHighScores();
+}
+
+function displayHighScores() {
+  const listElement = document.getElementById("scoreList");
+  if (localStorage.highscore !== undefined) {
+    let highscoreArray = JSON.parse(localStorage.highscore);
+    highscoreArray.sort();
+  }
+
+  for (let score of highscoreArray) {
+    const item = document.createElement("li");
+    item.innerText = highscore.name + highscore.score;
+  }
+
+  listElement.appendChild(item);
+}
 
 function resultScreen() {
   restartButton.draw();
   textSize(30);
-  text("Your score:", 150, 100);
+  text("Your score:0", 150, 100);
+  const buttonElement = document.getElementById("saveButton");
+  buttonElement.addEventListener("click", function () {
+    highscoreSave();
+  });
+
+  displayHighScores();
 }
 
 //for each state
