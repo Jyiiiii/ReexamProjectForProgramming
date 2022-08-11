@@ -39,43 +39,43 @@ function gameScreen() {
   //draw bricks
   let brickWidth = 65;
   let margin = 12;
-  let x = margin;
-  let y = 80 + margin;
+  let bx = margin;
+  let by = 80 + margin;
   let brickHeight = 30;
   for (let i = 0; i < 5; i++) {
     fill(149, 75, 12);
-    rect(x, 50, brickWidth, 30);
-    x = x + brickWidth + margin;
+    rect(bx, 50, brickWidth, 30);
+    bx = bx + brickWidth + margin;
   }
   for (let i = 0; i < 4; i++) {
-    rect(12, y, 65, brickHeight);
-    y = y + brickHeight + margin;
+    rect(12, by, 65, brickHeight);
+    by = by + brickHeight + margin;
   }
   for (let i = 0; i < 4; i++) {
     rect(24 + brickWidth, y - 4 * (12 + brickHeight), 65, brickHeight);
-    y = y + brickHeight + margin;
+    by = by + brickHeight + margin;
   }
   for (let i = 0; i < 4; i++) {
     rect(
-      x - 3 * (12 + brickWidth),
-      y - 8 * (12 + brickHeight),
+      bx - 3 * (12 + brickWidth),
+      by - 8 * (12 + brickHeight),
       65,
       brickHeight
     );
-    y = y + brickHeight + margin;
+    by = by + brickHeight + margin;
   }
   for (let i = 0; i < 4; i++) {
     rect(
-      x - 2 * (12 + brickWidth),
-      y - 12 * (12 + brickHeight),
+      bx - 2 * (12 + brickWidth),
+      by - 12 * (12 + brickHeight),
       65,
       brickHeight
     );
-    y = y + brickHeight + margin;
+    by = by + brickHeight + margin;
   }
   for (let i = 0; i < 4; i++) {
-    rect(x - (12 + brickWidth), y - 16 * (12 + brickHeight), 65, brickHeight);
-    y = y + brickHeight + margin;
+    rect(bx - (12 + brickWidth), by - 16 * (12 + brickHeight), 65, brickHeight);
+    by = by + brickHeight + margin;
   }
 }
 
