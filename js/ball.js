@@ -1,8 +1,10 @@
 export default class Ball {
-  constructor(x, y, radius) {
+  constructor(x, y, radius, speedX, speedY) {
     this.x = x;
     this.y = y;
     this.radius = radius;
+    this.speedX = 4;
+    this.speedY = 4;
   }
 
   draw() {
@@ -13,21 +15,20 @@ export default class Ball {
     pop();
   }
 
-  bouceHitEdge() {
-    if (this.x + this.radius >= width) {
-      //when hit right edge
-      this.x *= -1;
-    } else if (this.x - this.radius <= 0) {
-      //left
-      this.x *= -1;
-    } else if (this.y - this.radius <= 0) {
-      //top
-      this.y *= -1;
-    }
+  update() {
+    this.x = this.x + this.speedX;
+    this.y = this.y - this.speedY;
   }
 
-  update() {
-    this.x += 4;
-    this.y -= 4;
+  bouceHitEdge() {
+    if (this.x + this.radius < 0 || this.x + this.radius > 400) {
+      //when hit right OR left edge
+      this.speedX = -this.speedX;
+    } else if (this.y + this.radius < 0) {
+      //top
+      this.speedY *= -this.speedY;
+    } else if (this.y + this.radius > 600) {
+      //判定失败 一会儿写
+    }
   }
 }
