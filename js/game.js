@@ -1,17 +1,21 @@
 import Button from "./button.js";
 import Paddle from "./paddle.js";
+import Ball from "./ball.js";
 // import Bricks from "./bricks.js";
 
 let state = "start";
 let startButton;
 let restartButton;
 let paddle;
+let ball;
+let playScore = 0;
 
 function setup() {
   createCanvas(400, 600);
   startButton = new Button(width - 280, height - 150, 150, 50, 30, "start");
   restartButton = new Button(width - 280, height - 450, 150, 50, 30, "again");
   paddle = new Paddle(width - 350, 500, 150, 30, 20);
+  ball = new Ball(width - 300, 485, 30);
 }
 
 window.setup = setup;
@@ -34,6 +38,18 @@ function gameScreen() {
   text("❤️:", 350, 30);
 
   startButton.draw();
+
+  //ball
+  ball.bouceHitEdge();
+  ball.draw();
+  ball.update();
+
+  //moving the paddle
+  if (keyIsDown(39) && paddle.x + paddle.width < 400) {
+    paddle.x += 3;
+  } else if (keyIsDown(37) && paddle.x > 0) {
+    paddle.x -= 3;
+  }
   paddle.draw();
 
   //draw bricks
