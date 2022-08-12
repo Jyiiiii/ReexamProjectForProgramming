@@ -1,8 +1,8 @@
+//import,export & setup and the states setting are learn from lab4
 import Button from "./button.js";
 import Paddle from "./paddle.js";
 import Ball from "./ball.js";
 import Brick from "./brick.js";
-// import Bricks from "./bricks.js";
 
 let state = "start";
 let startButton;
@@ -26,8 +26,8 @@ function setup() {
     for (let r = 0; r < 4; r++) {
       //rows
       brick = new Brick(
-        12 + (margin + 65) * i,
-        40 + (margin + 30) * r,
+        12 + (margin + 65) * i, //12 is the margin to the right
+        40 + (margin + 30) * r, //40 is the margin to the top
         65,
         30,
         10
@@ -80,7 +80,18 @@ function gameScreen() {
   }
 
   //draw bricks
+  /*this line of coding is get idea from https://developer.mozilla.org/zh-TW/docs/Web/JavaScript/Reference/Global_Objects/Array/forEach
+  since we need to every brick from the array by the loop above*/
   bricks.forEach((brick) => brick.draw());
+
+  //if the ball hit the bricks
+  if (
+    ball.x + ball.radius >= brick.x && //leftside of the brick
+    ball.x - ball.radius <= brick.x + brick.width && //rightside
+    ball.y - ball.radius <= brick.y + brick.height //bottom
+  ) {
+    ball.speedY *= -1;
+  }
 }
 
 //for save the highscores score这里要改
