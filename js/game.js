@@ -1,6 +1,7 @@
 import Button from "./button.js";
 import Paddle from "./paddle.js";
 import Ball from "./ball.js";
+import Brick from "./brick.js";
 // import Bricks from "./bricks.js";
 
 let state = "start";
@@ -8,6 +9,8 @@ let startButton;
 let restartButton;
 let paddle;
 let ball;
+let brick;
+let bricks = [];
 let playScore = 0;
 
 function setup() {
@@ -15,7 +18,23 @@ function setup() {
   startButton = new Button(width - 280, height - 150, 150, 50, 30, "start");
   restartButton = new Button(width - 280, height - 450, 150, 50, 30, "again");
   paddle = new Paddle(width - 350, 500, 150, 30, 20);
-  ball = new Ball(width - 300, 485, 30);
+  ball = new Ball(width - 300, 485, 15, 4, 4);
+  //create bricks
+  let margin = 12;
+  for (let i = 0; i < 5; i++) {
+    //columns
+    for (let r = 0; r < 4; r++) {
+      //rows
+      brick = new Brick(
+        12 + (margin + 65) * i,
+        40 + (margin + 30) * r,
+        65,
+        30,
+        10
+      );
+      bricks.push(brick);
+    }
+  }
 }
 
 window.setup = setup;
@@ -37,7 +56,7 @@ function gameScreen() {
   text("score:", 50, 30);
   text("❤️:", 350, 30);
 
-  startButton.draw();
+  //   startButton.draw();
 
   //ball
   ball.bouceHitEdge();
@@ -51,49 +70,19 @@ function gameScreen() {
     paddle.x -= 3;
   }
   paddle.draw();
+  //if the ball hit the paddle
+  if (
+    ball.x + ball.radius >= paddle.x &&
+    ball.x - ball.radius <= paddle.x + paddle.width &&
+    ball.y + ball.radius >= paddle.y
+  ) {
+    ball.speedY *= -1;
+  }
 
   //draw bricks
-  let brickWidth = 65;
-  let margin = 12;
-  let bx = margin;
-  let by = 80 + margin;
-  let brickHeight = 30;
-  for (let i = 0; i < 5; i++) {
-    fill(149, 75, 12);
-    rect(bx, 50, brickWidth, 30);
-    bx = bx + brickWidth + margin;
-  }
-  for (let i = 0; i < 4; i++) {
-    rect(12, by, 65, brickHeight);
-    by = by + brickHeight + margin;
-  }
-  for (let i = 0; i < 4; i++) {
-    rect(24 + brickWidth, by - 4 * (12 + brickHeight), 65, brickHeight);
-    by = by + brickHeight + margin;
-  }
-  for (let i = 0; i < 4; i++) {
-    rect(
-      bx - 3 * (12 + brickWidth),
-      by - 8 * (12 + brickHeight),
-      65,
-      brickHeight
-    );
-    by = by + brickHeight + margin;
-  }
-  for (let i = 0; i < 4; i++) {
-    rect(
-      bx - 2 * (12 + brickWidth),
-      by - 12 * (12 + brickHeight),
-      65,
-      brickHeight
-    );
-    by = by + brickHeight + margin;
-  }
-  for (let i = 0; i < 4; i++) {
-    rect(bx - (12 + brickWidth), by - 16 * (12 + brickHeight), 65, brickHeight);
-    by = by + brickHeight + margin;
-  }
+  bricks.forEach((brick) => brick.draw());
 }
+
 //for save the highscores score这里要改
 
 //Parts of the following codes are got from the course website-"Build a coin flip game with highscore"

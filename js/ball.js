@@ -3,15 +3,15 @@ export default class Ball {
     this.x = x;
     this.y = y;
     this.radius = radius;
-    this.speedX = 4;
-    this.speedY = 4;
+    this.speedX = speedX;
+    this.speedY = speedY;
   }
 
   draw() {
     push();
     translate(this.x, this.y);
     fill(255, 197, 98);
-    ellipse(0, 0, this.radius);
+    ellipse(0, 0, this.radius * 2);
     pop();
   }
 
@@ -23,12 +23,13 @@ export default class Ball {
   bouceHitEdge() {
     if (this.x + this.radius < 0 || this.x + this.radius > 400) {
       //when hit right OR left edge
-      this.speedX = -this.speedX;
+      this.speedX *= -1;
     } else if (this.y + this.radius < 0) {
       //top
-      this.speedY *= -this.speedY;
+      this.speedY *= -1;
     } else if (this.y + this.radius > 600) {
-      //判定失败 一会儿写
+      this.speedX = 0;
+      this.speedY = 0;
     }
   }
 }
