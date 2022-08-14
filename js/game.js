@@ -91,6 +91,7 @@ function gameScreen() {
     ball.y - ball.radius <= brick.y + brick.height //bottom
   ) {
     ball.speedY *= -1;
+    bricks.slice(i, 1);
   }
 }
 
