@@ -80,18 +80,17 @@ function gameScreen() {
   }
 
   //draw bricks
-  /*this line of coding is get idea from https://developer.mozilla.org/zh-TW/docs/Web/JavaScript/Reference/Global_Objects/Array/forEach
-  since we need to every brick from the array by the loop above*/
-  bricks.forEach((brick) => brick.draw());
-
   //if the ball hit the bricks
-  if (
-    ball.x + ball.radius >= brick.x && //leftside of the brick
-    ball.x - ball.radius <= brick.x + brick.width && //rightside
-    ball.y - ball.radius <= brick.y + brick.height //bottom
-  ) {
-    ball.speedY *= -1;
-    bricks.slice(i, 1);
+  for (i--) {
+    bricks[i].draw();
+    if (
+      ball.x + ball.radius >= brick.x && //leftside of the brick
+      ball.x - ball.radius <= brick.x + brick.width && //rightside
+      ball.y - ball.radius <= brick.y + brick.height //bottom
+    ) {
+      ball.speedY *= -1;
+      bricks.slice(i, 1);
+    }
   }
 }
 
