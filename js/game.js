@@ -28,9 +28,8 @@ function setup() {
       brick = new Brick(
         12 + (margin + 65) * i, //12 is the margin to the right
         40 + (margin + 30) * r, //40 is the margin to the top
-        65,
-        30,
-        10
+        65, //(LENTH)
+        30 //(WIDTH)
       );
       bricks.push(brick);
     }
@@ -81,15 +80,16 @@ function gameScreen() {
 
   //draw bricks
   //if the ball hit the bricks
-  for (i--) {
-    bricks[i].draw();
+  for (var i = 0; i < bricks.length; i++) {
+    var brick = bricks[i];
+    brick.draw();
     if (
       ball.x + ball.radius >= brick.x && //leftside of the brick
       ball.x - ball.radius <= brick.x + brick.width && //rightside
       ball.y - ball.radius <= brick.y + brick.height //bottom
     ) {
+      bricks.splice(i, 1);
       ball.speedY *= -1;
-      bricks.slice(i, 1);
     }
   }
 }
