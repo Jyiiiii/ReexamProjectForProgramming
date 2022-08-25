@@ -121,7 +121,7 @@ function gameScreen() {
 //Parts of the following codes are got from the course website-"Build a coin flip game with highscore"
 function highscoreSave() {
   const nameElement = document.getElementById("name");
-  let highscore = { name: nameElement.value, score: "" };
+  let highscore = { name: nameElement.value, score: gameScore };
 
   if (localStorage.highscore === undefined) {
     localStorage.highscore = JSON.stringify([]);
