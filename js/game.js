@@ -7,16 +7,19 @@ import Brick from "./brick.js";
 let state = "start";
 let startButton;
 let restartButton;
+let saveButton;
 let paddle;
 let ball;
 let brick;
 let bricks = [];
-let playScore = 0;
+let gameScore = 0;
+let lives = ["❤️", "❤️", "❤️"];
 
 function setup() {
   createCanvas(400, 600);
   startButton = new Button(width - 280, height - 150, 150, 50, 30, "start");
-  restartButton = new Button(width - 280, height - 450, 150, 50, 30, "again");
+  restartButton = new Button(width - 250, height - 370, 120, 45, 30, "again");
+  saveButton = new Button(width - 270, height - 250, 160, 45, 30, "save score");
   paddle = new Paddle(width - 350, 500, 150, 30, 20);
   ball = new Ball(width - 300, 485, 15, 4, 4);
   //create bricks
@@ -29,7 +32,8 @@ function setup() {
         12 + (margin + 65) * i, //12 is the margin to the right
         40 + (margin + 30) * r, //40 is the margin to the top
         65, //(LENTH)
-        30 //(WIDTH)
+        30, //(WIDTH)
+        5 //(POINTS)
       );
       bricks.push(brick);
     }
@@ -49,17 +53,24 @@ function startScreen() {
   startButton.draw();
 }
 
-function gameScreen() {
+function displayLives() {
   textSize(20);
-  fill(255, 255, 255);
-  text("score:", 50, 30);
-  text("❤️:", 350, 30);
+  text(lives.join(""), 350, 30);
+}
 
-  //   startButton.draw();
-
+function gameScreen() {
   //ball
   ball.bouceHitEdge();
   ball.draw();
+
+  //if ball drops down lose 1 life
+  if (ball.y - ball.radius >= paddle.y + paddle.height) {
+    lives.pop(1);
+  } else if (lives.length === 0) {
+    //when lose 3 lives->fail
+    state = "fail";
+  }
+
   ball.update();
 
   //moving the paddle
@@ -73,7 +84,8 @@ function gameScreen() {
   if (
     ball.x + ball.radius >= paddle.x &&
     ball.x - ball.radius <= paddle.x + paddle.width &&
-    ball.y + ball.radius >= paddle.y
+    ball.y + ball.radius >= paddle.y &&
+    ball.y - ball.radius <= paddle.y + paddle.height / 4
   ) {
     ball.speedY *= -1;
   }
@@ -82,16 +94,26 @@ function gameScreen() {
   //if the ball hit the bricks
   for (var i = 0; i < bricks.length; i++) {
     var brick = bricks[i];
-    brick.draw();
     if (
       ball.x + ball.radius >= brick.x && //leftside of the brick
       ball.x - ball.radius <= brick.x + brick.width && //rightside
       ball.y - ball.radius <= brick.y + brick.height //bottom
     ) {
-      bricks.splice(i, 1);
-      ball.speedY *= -1;
-    }
+      bricks.splice(i, 1); //remove the hitted brick
+      ball.speedY *= -1; //change the direction
+      gameScore += brick.point; //update the score
+    } else brick.draw();
   }
+
+  //if clean all the bricks
+  if (bricks.length === 0) {
+    state = "success";
+  }
+
+  textSize(20);
+  fill(255, 255, 255);
+  displayLives();
+  text("Score:" + gameScore, 50, 30);
 }
 
 //for save the highscores score这里要改
@@ -126,17 +148,35 @@ function displayHighScores() {
   listElement.appendChild(item);
 }
 
-function resultScreen() {
+function resultScreen(result) {
   restartButton.draw();
-  textSize(30);
-  text("Your score:0", 150, 100);
-  const buttonElement = document.getElementById("saveButton");
-  buttonElement.addEventListener("click", function () {
-    highscoreSave();
-  });
+  textSize(40);
+  fill(51, 132, 53);
+  text(result, 200, 150);
 
-  displayHighScores();
+  textSize(20);
+  fill(255, 255, 255);
+  text("You get:" + gameScore + "points", 200, 200);
+
+  //texts for save score
+  text("player:", 200, 320);
+  saveButton.draw();
+
+  //   const buttonElement = document.getElementById("saveButton");
+  //   buttonElement.addEventListener("click", function () {
+  //     highscoreSave();
+  //   });
+
+  //   displayHighScores();
 }
+
+let resultScreen1 = {
+  result: "You win!!",
+};
+
+let resultScreen2 = {
+  result: "Game Over",
+};
 
 //for each state
 function draw() {
@@ -146,8 +186,10 @@ function draw() {
     startScreen();
   } else if (state === "game") {
     gameScreen();
-  } else if (state === "result") {
-    resultScreen();
+  } else if (state === "success") {
+    resultScreen(resultScreen1.result);
+  } else if (state === "fail") {
+    resultScreen(resultScreen2.result);
   }
 }
 
@@ -158,13 +200,13 @@ function mouseClicked() {
     if (startButton.hitTest(mouseX, mouseY)) {
       state = "game";
     }
-  } else if (state === "result") {
+  } else if (state === "success") {
     if (restartButton.hitTest(mouseX, mouseY)) {
       state = "game";
     }
-  } else if (state === "game") {
+  } else if (state === "fail") {
     if (startButton.hitTest(mouseX, mouseY)) {
-      state = "result";
+      state = "game";
     }
   }
 }

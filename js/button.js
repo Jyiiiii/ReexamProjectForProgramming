@@ -18,7 +18,7 @@ export default class Button {
     noStroke();
     fill(255, 255, 255);
     textAlign(CENTER);
-    textSize(this.height / 2);
+    textSize(25);
     text(this.text, 0, 15, this.width);
     pop();
   }

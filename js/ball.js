@@ -27,9 +27,6 @@ export default class Ball {
     } else if (this.y + this.radius < 0) {
       //top
       this.speedY *= -1;
-    } else if (this.y + this.radius > 540) {
-      this.speedX = 0;
-      this.speedY = 0;
     }
   }
 }
