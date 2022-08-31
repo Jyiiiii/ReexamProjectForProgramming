@@ -65,7 +65,9 @@ function gameScreen() {
 
   //if ball drops down lose 1 life
   if (ball.y - ball.radius >= paddle.y + paddle.height) {
-    lives.pop(1);
+    lives.pop();
+    ball.newPosition();
+    ball.update();
   } else if (lives.length === 0) {
     //when lose 3 lives->fail
     state = "fail";
@@ -156,7 +158,7 @@ function resultScreen(result) {
 
   textSize(20);
   fill(255, 255, 255);
-  text("You get:" + gameScore + "points", 200, 200);
+  text("You get: " + gameScore + " points", 200, 200);
 
   //texts for save score
   text("player:", 200, 320);
@@ -203,10 +205,14 @@ function mouseClicked() {
   } else if (state === "success") {
     if (restartButton.hitTest(mouseX, mouseY)) {
       state = "game";
+      lives = ["❤️", "❤️", "❤️"];
+      setup();
     }
   } else if (state === "fail") {
-    if (startButton.hitTest(mouseX, mouseY)) {
+    if (restartButton.hitTest(mouseX, mouseY)) {
       state = "game";
+      lives = ["❤️", "❤️", "❤️"];
+      setup();
     }
   }
 }

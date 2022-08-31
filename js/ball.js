@@ -20,6 +20,11 @@ export default class Ball {
     this.y = this.y - this.speedY;
   }
 
+  newPosition() {
+    this.x = Math.floor(Math.random() * 401);
+    this.y = Math.floor(Math.random() * 151 + 300);
+  }
+
   bouceHitEdge() {
     if (this.x + this.radius < 0 || this.x + this.radius > 400) {
       //when hit right OR left edge
