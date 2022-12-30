@@ -1,4 +1,7 @@
-//import,export & setup and the states setting are learn from lab4
+//the OOP structure(import,export & setup and the states setting)were learned from the course website and lab4:catch me
+
+//some logical ideas for how to build this game were inspired from https://www.youtube.com/watch?v=3GLirU3SkDM
+//the codes were all written by ourselves and the video was just help us for the logical
 import Button from "./button.js";
 import Paddle from "./paddle.js";
 import Ball from "./ball.js";
@@ -197,12 +200,15 @@ function mouseClicked() {
     if (restartButton.hitTest(mouseX, mouseY)) {
       state = "game";
       lives = ["❤️", "❤️", "❤️"];
+      gameScore = 0;
       setup();
     }
   } else if (state === "fail") {
     if (restartButton.hitTest(mouseX, mouseY)) {
       state = "game";
       lives = ["❤️", "❤️", "❤️"];
+      gameScore = 0;
+
       setup();
     }
   }
