@@ -178,14 +178,17 @@ function draw() {
     gameScreen();
     document.getElementById("input_name").style.visibility = "hidden";
     document.getElementById("save_button").style.visibility = "hidden";
+    document.getElementById("score_list").style.visibility = "hidden";
   } else if (state === "success") {
     resultScreen(resultScreen1.result);
     document.getElementById("input_name").style.visibility = "visible";
     document.getElementById("save_button").style.visibility = "visible";
+    document.getElementById("score_list").style.visibility = "visible";
   } else if (state === "fail") {
     resultScreen(resultScreen2.result);
     document.getElementById("input_name").style.visibility = "visible";
     document.getElementById("save_button").style.visibility = "visible";
+    document.getElementById("score_list").style.visibility = "visible";
   }
 }
 
