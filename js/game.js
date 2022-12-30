@@ -7,7 +7,6 @@ import Brick from "./brick.js";
 let state = "start";
 let startButton;
 let restartButton;
-let saveButton;
 let paddle;
 let ball;
 let brick;
@@ -15,11 +14,14 @@ let bricks = [];
 let gameScore = 0;
 let lives = ["❤️", "❤️", "❤️"];
 
+const input_name = document.getElementById("input_name");
+//const save_button = document.getElementById("save_button");
+const high_scores = JSON.parse(localStorage.getItem("high_scores")) || [];
+
 function setup() {
   createCanvas(400, 600);
-  startButton = new Button(width - 280, height - 150, 150, 50, 30, "start");
-  restartButton = new Button(width - 250, height - 370, 120, 45, 30, "again");
-  saveButton = new Button(width - 270, height - 250, 160, 45, 30, "save score");
+  startButton = new Button(width - 280, height - 150, 150, 50, 30, "Start");
+  restartButton = new Button(width - 250, height - 370, 120, 45, 30, "Again");
   paddle = new Paddle(width - 350, 500, 150, 30, 20);
   ball = new Ball(width - 300, 485, 15, 4, 4);
   //create bricks
@@ -118,59 +120,40 @@ function gameScreen() {
   text("Score:" + gameScore, 50, 30);
 }
 
-//for save the highscores score这里要改
-
-//Parts of the following codes are got from the course website-"Build a coin flip game with highscore"
-function highscoreSave() {
-  const nameElement = document.getElementById("name");
-  let highscore = { name: nameElement.value, score: gameScore };
-
-  if (localStorage.highscore === undefined) {
-    localStorage.highscore = JSON.stringify([]);
-  }
-  let highscoreArray = JSON.parse(localStorage.highscore);
-  highscoreArray.push(highscore);
-  localStorage.highscore = JSON.stringify(highscoreArray);
-
-  displayHighScores();
-}
-
-function displayHighScores() {
-  const listElement = document.getElementById("scoreList");
-  if (localStorage.highscore !== undefined) {
-    let highscoreArray = JSON.parse(localStorage.highscore);
-    highscoreArray.sort();
-  }
-
-  for (let score of highscoreArray) {
-    const item = document.createElement("li");
-    item.innerText = highscore.name + highscore.score;
-  }
-
-  listElement.appendChild(item);
-}
-
 function resultScreen(result) {
   restartButton.draw();
-  textSize(40);
+  textSize(50);
   fill(51, 132, 53);
   text(result, 200, 150);
 
   textSize(20);
   fill(255, 255, 255);
-  text("You get: " + gameScore + " points", 200, 200);
+  text("You got : " + gameScore + " points", 200, 200);
 
-  //texts for save score
-  text("player:", 200, 320);
-  saveButton.draw();
+  textSize(30);
+  text("High Scores", 200, 400);
 
-  //   const buttonElement = document.getElementById("saveButton");
-  //   buttonElement.addEventListener("click", function () {
-  //     highscoreSave();
-  //   });
-
-  //   displayHighScores();
+  document.getElementById("score_list").innerHTML = high_scores
+    .map((score) => {
+      return `<li>${score.name}     ${score.score}</li>`;
+    })
+    .join("");
 }
+
+document.getElementById("save_button").onclick = function () {
+  const scores = {
+    score: gameScore,
+    name: input_name.value,
+  };
+
+  high_scores.push(scores);
+  high_scores.sort(function (a, b) {
+    return b.score - a.score;
+  });
+  high_scores.splice(5);
+  localStorage.setItem("high_scores", JSON.stringify(high_scores));
+  console.log(high_scores);
+};
 
 let resultScreen1 = {
   result: "You win!!",
@@ -186,12 +169,20 @@ function draw() {
 
   if (state === "start") {
     startScreen();
+    document.getElementById("input_name").style.visibility = "hidden";
+    document.getElementById("save_button").style.visibility = "hidden";
   } else if (state === "game") {
     gameScreen();
+    document.getElementById("input_name").style.visibility = "hidden";
+    document.getElementById("save_button").style.visibility = "hidden";
   } else if (state === "success") {
     resultScreen(resultScreen1.result);
+    document.getElementById("input_name").style.visibility = "visible";
+    document.getElementById("save_button").style.visibility = "visible";
   } else if (state === "fail") {
     resultScreen(resultScreen2.result);
+    document.getElementById("input_name").style.visibility = "visible";
+    document.getElementById("save_button").style.visibility = "visible";
   }
 }
 

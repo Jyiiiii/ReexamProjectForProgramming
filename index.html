@@ -10,9 +10,15 @@
     <script type="module" src="js/game.js"></script>
   </head>
   <body>
-    <!-- <input id="name" type="text" placeholder="name" /><button id="saveButton">
-      Save Highscores
+    <input class="input_name" id="input_name" type="text" placeholder="name" />
+    <button
+      class="save_button"
+      id="save_button"
+      type="submit"
+      onclick="save_high_score(event)"
+    >
+      Save your score
     </button>
-    <ul id="scoreList"></ul> -->
+    <p id="score_list"></p>
   </body>
 </html>
