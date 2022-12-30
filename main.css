@@ -24,9 +24,9 @@ body {
 #score_list {
   list-style: none;
   top: 400px;
-  right: 550px;
   z-index: 5;
   position: absolute;
   font-size: 20px;
   color: white;
+  justify-content: center;
 }
