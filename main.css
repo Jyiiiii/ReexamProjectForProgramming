@@ -6,24 +6,28 @@ body {
 .input_name {
   width: 150px;
   height: 40px;
-  margin-top: 300px;
-  right: 580px;
+  top: 290px;
   z-index: 1;
   position: absolute;
+  justify-content: center;
 }
 
 .save_button {
-  width: 80px;
+  width: 120px;
   height: 40px;
-  margin-top: 303px;
-  right: 480px;
+  top: 345px;
+  color: white;
+  border-radius: 64px;
+  border: none;
+  background: #ffc562;
   z-index: 1;
   position: absolute;
+  justify-content: center;
 }
 
 #score_list {
   list-style: none;
-  top: 400px;
+  top: 425px;
   z-index: 5;
   position: absolute;
   font-size: 20px;

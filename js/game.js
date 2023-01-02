@@ -24,7 +24,7 @@ const high_scores = JSON.parse(localStorage.getItem("high_scores")) || [];
 function setup() {
   createCanvas(400, 600);
   startButton = new Button(width - 280, height - 150, 150, 50, 30, "Start");
-  restartButton = new Button(width - 250, height - 370, 120, 45, 30, "Again");
+  restartButton = new Button(width - 260, height - 375, 120, 45, 30, "Again");
   paddle = new Paddle(width - 350, 500, 150, 30, 20);
   ball = new Ball(width - 300, 485, 15, 4, 4);
   //create bricks
@@ -134,7 +134,21 @@ function resultScreen(result) {
   text("You got : " + gameScore + " points", 200, 200);
 
   textSize(30);
-  text("High Scores", 200, 400);
+  text("High Scores", 200, 420);
+
+  document.getElementById("save_button").onclick = function () {
+    const scores = {
+      score: gameScore,
+      name: input_name.value,
+    };
+
+    high_scores.push(scores);
+    high_scores.sort(function (a, b) {
+      return b.score - a.score;
+    });
+    high_scores.splice(5);
+    localStorage.setItem("high_scores", JSON.stringify(high_scores));
+  };
 
   document.getElementById("score_list").innerHTML = high_scores
     .map((score) => {
@@ -142,21 +156,6 @@ function resultScreen(result) {
     })
     .join("");
 }
-
-document.getElementById("save_button").onclick = function () {
-  const scores = {
-    score: gameScore,
-    name: input_name.value,
-  };
-
-  high_scores.push(scores);
-  high_scores.sort(function (a, b) {
-    return b.score - a.score;
-  });
-  high_scores.splice(5);
-  localStorage.setItem("high_scores", JSON.stringify(high_scores));
-  console.log(high_scores);
-};
 
 let resultScreen1 = {
   result: "You win!!",
